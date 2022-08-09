@@ -1,0 +1,2 @@
+# ynab
+YNAB CLI
