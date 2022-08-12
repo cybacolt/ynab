@@ -22,31 +22,31 @@ Once you've made a request with your <budget_id>, switch to using `last-used` as
 For more detail on schemas, visit: https://api.youneedabudget.com/v1#/
 
 ```
-$0 user | help
-$0 <budget_id> { settings
-                 accounts
-                 accounts <account_id>
-                 accounts <account_id> transactions
-                 accounts new-account.json
-                 categories
-                 categories <category_id>
-                 categories <category_id> transactions
-                 months
-                 months <month>
-                 months <month> categories <category_id>
-                 months <month> categories <category_id> update-category.json
-                 payeelocations
-                 payeelocations <payee_location_id>
-                 payees
-                 payees <payee_id>
-                 payees <payee_id> payeelocations
-                 payees <payee_id> transactions
-                 transactions
-                 transactions new-transactions.json
-                 transactions update update-transactions.json
-                 transactions <transaction_id>
-                 transactions <transaction_id> update-transaction.json
-                 transactions import new-transactions.json
-                 scheduled
-                 scheduled <scheduled_transaction_id>
+ynab.sh user | help
+ynab.sh <budget_id> { settings
+                      accounts
+                      accounts <account_id>
+                      accounts <account_id> transactions
+                      accounts new-account.json
+                      categories
+                      categories <category_id>
+                      categories <category_id> transactions
+                      months
+                      months <month>
+                      months <month> categories <category_id>
+                      months <month> categories <category_id> update-category.json
+                      payeelocations
+                      payeelocations <payee_location_id>
+                      payees
+                      payees <payee_id>
+                      payees <payee_id> payeelocations
+                      payees <payee_id> transactions
+                      transactions
+                      transactions new-transactions.json
+                      transactions update update-transactions.json
+                      transactions <transaction_id>
+                      transactions <transaction_id> update-transaction.json
+                      transactions import new-transactions.json
+                      scheduled
+                      scheduled <scheduled_transaction_id>
 ```
