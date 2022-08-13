@@ -14,6 +14,7 @@ Put the YNAB API token in the `.ynconfig` file, or the following environment var
 set YNAB_TOKEN=<your token>
 ```
 
+Output can be set to `raw` or `jq` using `YNOUTPUT`.
 
 ## Usage
 

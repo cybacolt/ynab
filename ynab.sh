@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -x
 
 for i in curl jq; do
     which $i > /dev/null
@@ -7,6 +6,10 @@ done
 
 if [ -f ".ynconfig" ]; then
     source .ynconfig
+fi
+
+if [ "$YNDEBUG" = "true" ]; then
+    set -x
 fi
 
 # load token from file or env var
@@ -25,17 +28,15 @@ command="$2"
 exec()
 {
     if [ ! -z $YNPAYLOAD ]; then
-            echo "curl -X $YNMETHOD $YNHEADERS $YNPROTOCOL://$YNHOST$YNAPIPATH -d $YNPAYLOAD"
             output=`curl -sS -X $YNMETHOD $YNHEADERS "$YNPROTOCOL://$YNHOST$YNAPIPATH" -d $YNPAYLOAD 2>&1`
     else
-            echo "curl -X $YNMETHOD $YNPROTOCOL://$YNHOST$YNAPIPATH -H \"$YNAUTH\" -H \"$YNHEADERS\""
             output=`curl -sS -X $YNMETHOD "$YNPROTOCOL://$YNHOST$YNAPIPATH" -H "$YNAUTH" -H "$YNHEADERS" 2>&1`
     fi
 
-    if [ $? -gt 0 ]; then
-            echo $output
-    else
+    if [ "$YNOUTPUT" = "jq" ]; then
             echo $output | jq
+    elif [ $? -gt 0 ] || [ "$YNOUTPUT" = "text" ]; then
+            echo $output
     fi
 }
 
@@ -46,11 +47,6 @@ user()
 
 accounts()
 {
-#     accounts
-#     accounts <account_id>
-#     accounts <account_id> transactions
-#     accounts new-account.json
-
     fileoraccount=${1-}
     action=${2-}
 
@@ -66,10 +62,6 @@ accounts()
 
 categories()
 {
-#     categories
-#     categories <category_id>
-#     categories <category_id> transactions
-
     id=${1-}
     action=${2-}
     commonpath "categories" $id $action
@@ -77,11 +69,6 @@ categories()
 
 months()
 {
-#     months
-#     months <month>
-#     months <month> categories <category_id>
-#     months <month> categories <category_id> update-category.json
-
     id=${1-}
     action=${2-}
     actionid=${3-}
@@ -100,20 +87,12 @@ months()
 
 payeelocations()
 {
-#     payeelocations
-#     payeelocations <payee_location_id>
-
     id=${1-}
     commonpath "payee_locations" $id
 }
 
 payees()
 {
-#     payees
-#     payees <payee_id>
-#     payees <payee_id> payeelocations
-#     payees <payee_id> transactions
-
     id=${1-}
     action=${2-}
     if [ "$action" = "payeelocations" ]; then
@@ -124,26 +103,19 @@ payees()
 
 transactions()
 {
-#     transactions
-#     transactions new-transactions.json
-#     transactions update update-transactions.json
-#     transactions <transaction_id>
-#     transactions <transaction_id> update-transaction.json
-#     transactions import new-transactions.json
-
     YNAPIPATH=$YNAPIPATH"/transactions"
     fileoractionorid=${1-}
     file=${2-}
 
-    if [ -n "$fileoractionorid" ]; then
-        if [ -f "$file" ]; then
-            YNPAYLOAD="-d @$file"
-            YNMETHOD="POST"
-        fi
+    if [ -f "$file" ]; then
+        YNPAYLOAD="-d @$file"
+        YNMETHOD="POST"
+    fi
 
+    if [ -n "$fileoractionorid" ]; then
         if [ -f "$fileoractionorid" ]; then
-            file=$fileoractionorid
-            YNPAYLOAD="-d @$file"
+            YNPAYLOAD="-d @$fileoractionorid"
+            YNMETHOD="POST"
         elif [ "$fileoractionorid" = "import" ] || [ "$fileoractionorid" = "update" ]; then
             action="$fileoractionorid"
 
@@ -165,8 +137,6 @@ transactions()
 
 scheduled()
 {
-#     scheduled
-#     scheduled <scheduled_transaction_id>
     id=${1-}
     commonpath "scheduled_transactions" $id
 }
