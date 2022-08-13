@@ -35,7 +35,7 @@ exec()
 
     if [ "$YNOUTPUT" = "jq" ]; then
             echo $output | jq
-    elif [ $? -gt 0 ] || [ "$YNOUTPUT" = "text" ]; then
+    elif [ $? -gt 0 ] || [ "$YNOUTPUT" = "raw" ]; then
             echo $output
     fi
 }
