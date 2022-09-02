@@ -1,0 +1,34 @@
+{
+  "transactions": [
+    {
+      "account_id": "some-uuid-here",
+      "date": "2022-01-01",
+      "amount": -10000,
+      "payee_name": "Payee here, amount is in microunits (x1000)",
+      "category_id": "some-uuid-here",
+      "memo": "",
+      "cleared": "cleared",
+      "approved": true
+    }, 
+    {
+      "account_id": "some-uuid-here",
+      "date": "2022-01-01",
+      "amount": -10000,
+      "payee_name": "Payee here, amount is in microunits (x1000)",
+      "category_id": "some-uuid-here",
+      "memo": "",
+      "cleared": "cleared",
+      "approved": true
+    }, 
+    {
+      "account_id": "some-uuid-here",
+      "date": "2022-01-01",
+      "amount": -10000,
+      "payee_name": "Payee here, amount is in microunits (x1000)",
+      "category_id": "some-uuid-here",
+      "memo": "",
+      "cleared": "cleared",
+      "approved": true
+    }
+  ]
+}

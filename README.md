@@ -47,7 +47,20 @@ ynab.sh <budget_id> { settings
                       transactions update update-transactions.json
                       transactions <transaction_id>
                       transactions <transaction_id> update-transaction.json
-                      transactions import new-transactions.json
+                      transactions import
                       scheduled
                       scheduled <scheduled_transaction_id>
+```
+
+## Examples
+
+Extracting flattened categories:
+```
+./ynab.sh last-used categories | jq '.data.category_groups[] | "\(.name) \(.id)"'
+./ynab.sh last-used categories | jq | jq '.data.category_groups[].categories[] | "\(.name) \(.id)"'
+```
+
+A small script to iterate and POST example transactions in the `transactions/` folder using `ynab.sh`:
+```
+./send-transactions.sh
 ```

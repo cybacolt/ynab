@@ -19,6 +19,7 @@ YNHOST="api.youneedabudget.com"
 YNMETHOD="GET"
 YNAUTH="Authorization: Bearer $YNTOKEN"
 YNHEADERS="accept: application/json"
+YNHEADERS2="Content-Type: application/json"
 YNPROTOCOL="https"
 YNPAYLOAD=""
 YNBUDGETID=$1
@@ -28,9 +29,9 @@ command="$2"
 exec()
 {
     if [ ! -z $YNPAYLOAD ]; then
-            output=`curl -sS -X $YNMETHOD $YNHEADERS "$YNPROTOCOL://$YNHOST$YNAPIPATH" -d $YNPAYLOAD 2>&1`
+            output=`curl -sS -X $YNMETHOD -H "$YNAUTH" -H "$YNHEADERS" -H "$YNHEADERS2" -d $YNPAYLOAD "$YNPROTOCOL://$YNHOST$YNAPIPATH" 2>&1`
     else
-            output=`curl -sS -X $YNMETHOD "$YNPROTOCOL://$YNHOST$YNAPIPATH" -H "$YNAUTH" -H "$YNHEADERS" 2>&1`
+            output=`curl -sS -X $YNMETHOD -H "$YNAUTH" -H "$YNHEADERS" "$YNPROTOCOL://$YNHOST$YNAPIPATH" 2>&1`
     fi
 
     if [ "$YNOUTPUT" = "jq" ]; then
@@ -108,13 +109,13 @@ transactions()
     file=${2-}
 
     if [ -f "$file" ]; then
-        YNPAYLOAD="-d @$file"
+        YNPAYLOAD="@$file"
         YNMETHOD="POST"
     fi
 
     if [ -n "$fileoractionorid" ]; then
         if [ -f "$fileoractionorid" ]; then
-            YNPAYLOAD="-d @$fileoractionorid"
+            YNPAYLOAD="@$fileoractionorid"
             YNMETHOD="POST"
         elif [ "$fileoractionorid" = "import" ] || [ "$fileoractionorid" = "update" ]; then
             action="$fileoractionorid"
@@ -185,7 +186,7 @@ help()
                          transactions update update-transactions.json
                          transactions <transaction_id>
                          transactions <transaction_id> update-transaction.json
-                         transactions import new-transactions.json
+                         transactions import
                          scheduled
                          scheduled <scheduled_transaction_id>
 
